@@ -13,6 +13,11 @@ Foi retirada as linhas em que o campo TotalCharges se encontrava como NA, ou sej
 ```{r}
 require(e1071)
 require(caret)
+require(dplyr)
+dados <- read.csv("../dados/dados.csv")
+dados <- tbl_df(dados)
+dados$customerID <- as.character(dados$customerID)
+
 DataSubset <- subset(dados,subset=TotalCharges>0,select = -customerID)
 DadosTreinamento <- createDataPartition(y = DataSubset$Churn,p = 0.8)
 Train <- DataSubset[DadosTreinamento$Resample1,]

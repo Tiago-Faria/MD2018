@@ -20,6 +20,12 @@ p_load(C5.0())
 
 ##Árvore de decisão simples 
 ```{r DataSubset, echo=FALSE}
+require(dplyr)
+dados <- read.csv("../dados/dados.csv")
+dados <- tbl_df(dados)
+dados$customerID <- as.character(dados$customerID)
+DataSubset <- subset(dados,subset=TotalCharges>0,select = -customerID)
+
 mod1 <- C5.0(Churn ~ .,data = DataSubset)
 plot(mod1)
 plot(mod1,subtree = 4)
@@ -40,4 +46,4 @@ modeloRF <- randomForest(Churn ~ ., data=DataSubset)
 confusionMatrix(predict(modeloRF,DataSubset[,1:19]),DataSubset[20]$Churn)
 ```
 
-A acuracia foi de 0.9788
+A acuracia foi de ~ 0.97
