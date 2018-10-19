@@ -21,7 +21,7 @@ p_load(C5.0())
 ##Árvore de decisão simples 
 ```{r DataSubset, echo=FALSE}
 require(dplyr)
-dados <- read.csv("../dados/dados.csv")
+dados <- read.csv("../../dados/dados.csv")
 dados <- tbl_df(dados)
 dados$customerID <- as.character(dados$customerID)
 DataSubset <- subset(dados,subset=TotalCharges>0,select = -customerID)

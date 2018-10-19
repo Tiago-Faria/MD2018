@@ -14,17 +14,17 @@ require(pacman)
 p_load(freestats,dplyr)
 set.seed(1)
 
-dados <- read.csv("../dados/dados.csv")
+dados <- read.csv("../../dados/dados.csv")
 dados <- tbl_df(dados)
 dados$customerID <- as.character(dados$customerID)
 dados <- subset(dados,subset=TotalCharges>0,select = -customerID)
 dados$Bias <- 1
 
-DataSubset <- dados[sample(nrow(dados),1000),]
+DataSubset <- dados
 DadosEntrada <- data.matrix(subset(DataSubset, select = -Churn))
 Classes <- data.matrix(subset(DataSubset, select = Churn))
 
-percep = perceptrain(DadosEntrada,Classes,1,0)
+percep = perceptrain(DadosEntrada,Classes,0.01,10)
 
 t = rep(0,nrow(DadosEntrada))
 for(i in 1:nrow(DadosEntrada)){

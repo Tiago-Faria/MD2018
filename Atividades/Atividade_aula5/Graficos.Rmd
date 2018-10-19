@@ -7,7 +7,7 @@ output:
 
 ```{r, echo=FALSE, include=FALSE}
 require(dplyr)
-dados <- read.csv("../dados/dados.csv")
+dados <- read.csv("../../dados/dados.csv")
 dados <- tbl_df(dados)
 dados$customerID <- as.character(dados$customerID)
 ```

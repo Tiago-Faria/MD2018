@@ -184,26 +184,25 @@ $(document).ready(function () {
 <p>Foi retirada as linhas em que o campo TotalCharges se encontrava como NA, ou seja, não haviam informações sobre o atributo. O dataset foi dividido em um subconjunto com 80% dos dados totais para treinamento, e um subconjunto de 20% dos dados para teste.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShlMTA3MSlcblxuYGBgIn0= -->
-<pre class="r"><code>require(e1071)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucmVxdWlyZShlMTA3MSlcblxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r require(e1071)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBlMTA3MVxuIn0= -->
 <pre><code>Carregando pacotes exigidos: e1071</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVxdWlyZShjYXJldClcbmBgYCJ9 -->
-<pre class="r"><code>require(caret)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucmVxdWlyZShjYXJldClcbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r require(caret)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBjYXJldFxuQ2FycmVnYW5kbyBwYWNvdGVzIGV4aWdpZG9zOiBsYXR0aWNlXG5DYXJyZWdhbmRvIHBhY290ZXMgZXhpZ2lkb3M6IGdncGxvdDJcbiJ9 -->
 <pre><code>Carregando pacotes exigidos: caret
 Carregando pacotes exigidos: lattice
 Carregando pacotes exigidos: ggplot2</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRGF0YVN1YnNldCA8LSBzdWJzZXQoZGFkb3Msc3Vic2V0PVRvdGFsQ2hhcmdlcz4wLHNlbGVjdCA9IC1jdXN0b21lcklEKVxuRGFkb3NUcmVpbmFtZW50byA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKHkgPSBEYXRhU3Vic2V0JENodXJuLHAgPSAwLjgpXG5UcmFpbiA8LSBEYXRhU3Vic2V0W0RhZG9zVHJlaW5hbWVudG8kUmVzYW1wbGUxLF1cblRlc3QgPC0gRGF0YVN1YnNldFstRGFkb3NUcmVpbmFtZW50byRSZXNhbXBsZTEsXVxuYGBgIn0= -->
-<pre class="r"><code>DataSubset &lt;- subset(dados,subset=TotalCharges&gt;0,select = -customerID)
-DadosTreinamento &lt;- createDataPartition(y = DataSubset$Churn,p = 0.8)
-Train &lt;- DataSubset[DadosTreinamento$Resample1,]
-Test &lt;- DataSubset[-DadosTreinamento$Resample1,]</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuRGF0YVN1YnNldCA8LSBzdWJzZXQoZGFkb3Msc3Vic2V0PVRvdGFsQ2hhcmdlcz4wLHNlbGVjdCA9IC1jdXN0b21lcklEKVxuRGFkb3NUcmVpbmFtZW50byA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKHkgPSBEYXRhU3Vic2V0JENodXJuLHAgPSAwLjgpXG5UcmFpbiA8LSBEYXRhU3Vic2V0W0RhZG9zVHJlaW5hbWVudG8kUmVzYW1wbGUxLF1cblRlc3QgPC0gRGF0YVN1YnNldFstRGFkb3NUcmVpbmFtZW50byRSZXNhbXBsZTEsXVxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r DataSubset &lt;- subset(dados,subset=TotalCharges&gt;0,select = -customerID) DadosTreinamento &lt;- createDataPartition(y = DataSubset<span class="math inline">\(Churn,p = 0.8) Train &lt;- DataSubset[DadosTreinamento\)</span>Resample1,] Test &lt;- DataSubset[-DadosTreinamento$Resample1,]</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -212,11 +211,10 @@ Test &lt;- DataSubset[-DadosTreinamento$Resample1,]</code></pre>
 <h2>Kernel sigmoid do SVM</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVwic2lnbW9pZFwiKVxucHJlZGl0aW9ucyA8LSBwcmVkaWN0KHByZWRpdG9yLHN1YnNldChUZXN0LHNlbGVjdCA9IC1DaHVybikpXG5jb25mdXNpb25NYXRyaXgocHJlZGl0aW9ucyxzdWJzZXQoVGVzdCxzZWxlY3Q9Q2h1cm4pJENodXJuKVxuYGBgIn0= -->
-<pre class="r"><code>
-preditor &lt;- svm(Churn ~ ., data = Train,kernel=&quot;sigmoid&quot;)
-preditions &lt;- predict(preditor,subset(Test,select = -Churn))
-confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVxcc2lnbW9pZFxcKVxucHJlZGl0aW9ucyA8LSBwcmVkaWN0KHByZWRpdG9yLHN1YnNldChUZXN0LHNlbGVjdCA9IC1DaHVybikpXG5jb25mdXNpb25NYXRyaXgocHJlZGl0aW9ucyxzdWJzZXQoVGVzdCxzZWxlY3Q9Q2h1cm4pJENodXJuKVxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r</p>
+<p>preditor &lt;- svm(Churn ~ ., data = Train,kernel=) preditions &lt;- predict(preditor,subset(Test,select = -Churn)) confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -225,11 +223,10 @@ confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
 <h2>Kernel linear do SVM</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVwibGluZWFyXCIpXG5wcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSlcbmNvbmZ1c2lvbk1hdHJpeChwcmVkaXRpb25zLHN1YnNldChUZXN0LHNlbGVjdD1DaHVybikkQ2h1cm4pXG5gYGAifQ== -->
-<pre class="r"><code>
-preditor &lt;- svm(Churn ~ ., data = Train,kernel=&quot;linear&quot;)
-preditions &lt;- predict(preditor,subset(Test,select = -Churn))
-confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVxcbGluZWFyXFwpXG5wcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSlcbmNvbmZ1c2lvbk1hdHJpeChwcmVkaXRpb25zLHN1YnNldChUZXN0LHNlbGVjdD1DaHVybikkQ2h1cm4pXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<p>preditor &lt;- svm(Churn ~ ., data = Train,kernel=) preditions &lt;- predict(preditor,subset(Test,select = -Churn)) confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -238,11 +235,10 @@ confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
 <h2>Kernel polynomial do SVM</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVwicG9seW5vbWlhbFwiKVxucHJlZGl0aW9ucyA8LSBwcmVkaWN0KHByZWRpdG9yLHN1YnNldChUZXN0LHNlbGVjdCA9IC1DaHVybikpXG5jb25mdXNpb25NYXRyaXgocHJlZGl0aW9ucyxzdWJzZXQoVGVzdCxzZWxlY3Q9Q2h1cm4pJENodXJuKVxuYGBgIn0= -->
-<pre class="r"><code>
-preditor &lt;- svm(Churn ~ ., data = Train,kernel=&quot;polynomial&quot;)
-preditions &lt;- predict(preditor,subset(Test,select = -Churn))
-confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVxccG9seW5vbWlhbFxcKVxucHJlZGl0aW9ucyA8LSBwcmVkaWN0KHByZWRpdG9yLHN1YnNldChUZXN0LHNlbGVjdCA9IC1DaHVybikpXG5jb25mdXNpb25NYXRyaXgocHJlZGl0aW9ucyxzdWJzZXQoVGVzdCxzZWxlY3Q9Q2h1cm4pJENodXJuKVxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r</p>
+<p>preditor &lt;- svm(Churn ~ ., data = Train,kernel=) preditions &lt;- predict(preditor,subset(Test,select = -Churn)) confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -251,11 +247,10 @@ confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
 <h2>Kernel radial basis do SVM</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVwicmFkaWFsXCIpXG5wcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSlcbmNvbmZ1c2lvbk1hdHJpeChwcmVkaXRpb25zLHN1YnNldChUZXN0LHNlbGVjdD1DaHVybikkQ2h1cm4pXG5gYGAifQ== -->
-<pre class="r"><code>
-preditor &lt;- svm(Churn ~ ., data = Train,kernel=&quot;radial&quot;)
-preditions &lt;- predict(preditor,subset(Test,select = -Churn))
-confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG5wcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPVxccmFkaWFsXFwpXG5wcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSlcbmNvbmZ1c2lvbk1hdHJpeChwcmVkaXRpb25zLHN1YnNldChUZXN0LHNlbGVjdD1DaHVybikkQ2h1cm4pXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r</p>
+<p>preditor &lt;- svm(Churn ~ ., data = Train,kernel=) preditions &lt;- predict(preditor,subset(Test,select = -Churn)) confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -272,7 +267,7 @@ confusionMatrix(preditions,subset(Test,select=Churn)$Churn)</code></pre>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OgogIHdvcmRfZG9jdW1lbnQ6IGRlZmF1bHQKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0Ci0tLQojVGVzdGVzIGRlIEtlcm5lbCBkbyBTVk0KTmVzdGUgZG9jdW1lbnRvIHPDo28gZmVpdG9zIHRlc3RlcyBkb3MgZGlmZXJlbnRlcyBrZXJuZWxzIHByZXNlbnRlcyBuYSBmdW7Dp8OjbyBzdm0gZG8gcGFjb3RlIGUxMDcxIHBhcmEgYSBjb25zdHJ1w6fDo28gZGUgc3Vwb3J0IHZlY3RvciBtYWNoaW5lcy4gQSBiYXNlIGRlIGRhZG9zIHVzYWRhIGZvaSBhIEN1c3R1bWVyIENodXJuLiBUaXJhbmRvIG8gY3VzdG9tZXJJRCwgdG9kb3Mgb3MgYXRyaWJ1dG9zIGZvcmFtIHVzYWRvcyBwYXJhIGNsYXNzaWZpY2FyIG9zIGluZGl2w61kdW9zIGVtIHJlbGHDp8OjbyBhbyBjYW1wbyBDaHVybi4KCiMjUHJlcGFyYcOnw6NvIGUgc2VwYXJhw6fDo28gZG8gZGF0YSBzZXQgZW0gc3Vic2V0cyBkZSB0cmVpbmFtZW50byBlIHRlc3RlLgpGb2kgcmV0aXJhZGEgYXMgbGluaGFzIGVtIHF1ZSBvIGNhbXBvIFRvdGFsQ2hhcmdlcyBzZSBlbmNvbnRyYXZhIGNvbW8gTkEsIG91IHNlamEsIG7Do28gaGF2aWFtIGluZm9ybWHDp8O1ZXMgc29icmUgbyBhdHJpYnV0by4gTyBkYXRhc2V0IGZvaSBkaXZpZGlkbyBlbSB1bSBzdWJjb25qdW50byBjb20gODAlIGRvcyBkYWRvcyB0b3RhaXMgcGFyYSB0cmVpbmFtZW50bywgZSB1bSBzdWJjb25qdW50byBkZSAyMCUgZG9zIGRhZG9zIHBhcmEgdGVzdGUuIApgYGB7cn0KcmVxdWlyZShlMTA3MSkKcmVxdWlyZShjYXJldCkKcmVxdWlyZShkcGx5cikKZGFkb3MgPC0gcmVhZC5jc3YoIi4uL2RhZG9zL2RhZG9zLmNzdiIpCmRhZG9zIDwtIHRibF9kZihkYWRvcykKZGFkb3MkY3VzdG9tZXJJRCA8LSBhcy5jaGFyYWN0ZXIoZGFkb3MkY3VzdG9tZXJJRCkKCkRhdGFTdWJzZXQgPC0gc3Vic2V0KGRhZG9zLHN1YnNldD1Ub3RhbENoYXJnZXM+MCxzZWxlY3QgPSAtY3VzdG9tZXJJRCkKRGFkb3NUcmVpbmFtZW50byA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKHkgPSBEYXRhU3Vic2V0JENodXJuLHAgPSAwLjgpClRyYWluIDwtIERhdGFTdWJzZXRbRGFkb3NUcmVpbmFtZW50byRSZXNhbXBsZTEsXQpUZXN0IDwtIERhdGFTdWJzZXRbLURhZG9zVHJlaW5hbWVudG8kUmVzYW1wbGUxLF0KYGBgCiMjS2VybmVsIHNpZ21vaWQgZG8gU1ZNCgpgYGB7ciwgZWNobz1UUlVFfQoKcHJlZGl0b3IgPC0gc3ZtKENodXJuIH4gLiwgZGF0YSA9IFRyYWluLGtlcm5lbD0ic2lnbW9pZCIpCnByZWRpdGlvbnMgPC0gcHJlZGljdChwcmVkaXRvcixzdWJzZXQoVGVzdCxzZWxlY3QgPSAtQ2h1cm4pKQpjb25mdXNpb25NYXRyaXgocHJlZGl0aW9ucyxzdWJzZXQoVGVzdCxzZWxlY3Q9Q2h1cm4pJENodXJuKQpgYGAKIyNLZXJuZWwgbGluZWFyIGRvIFNWTQoKYGBge3J9CgpwcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPSJsaW5lYXIiKQpwcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSkKY29uZnVzaW9uTWF0cml4KHByZWRpdGlvbnMsc3Vic2V0KFRlc3Qsc2VsZWN0PUNodXJuKSRDaHVybikKYGBgCiMjS2VybmVsIHBvbHlub21pYWwgZG8gU1ZNCgpgYGB7cn0KCnByZWRpdG9yIDwtIHN2bShDaHVybiB+IC4sIGRhdGEgPSBUcmFpbixrZXJuZWw9InBvbHlub21pYWwiKQpwcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSkKY29uZnVzaW9uTWF0cml4KHByZWRpdGlvbnMsc3Vic2V0KFRlc3Qsc2VsZWN0PUNodXJuKSRDaHVybikKYGBgCiMjS2VybmVsIHJhZGlhbCBiYXNpcyBkbyBTVk0KCmBgYHtyfQoKcHJlZGl0b3IgPC0gc3ZtKENodXJuIH4gLiwgZGF0YSA9IFRyYWluLGtlcm5lbD0icmFkaWFsIikKcHJlZGl0aW9ucyA8LSBwcmVkaWN0KHByZWRpdG9yLHN1YnNldChUZXN0LHNlbGVjdCA9IC1DaHVybikpCmNvbmZ1c2lvbk1hdHJpeChwcmVkaXRpb25zLHN1YnNldChUZXN0LHNlbGVjdD1DaHVybikkQ2h1cm4pCmBgYAoKIyNSZXN1bHRhZG9zCgpFbSByZWxhw6fDo28gYW8gYXRyaWJ1dG8ga2FwcGEgZGUgY2FkYSBrZXJuZWw6CgpTaWdtb2lkOiAwLjQ0NTkKCkxpbmVhcjogMC40NjYyCgpQb2x5bm9taWFsOiAwLjM4ODIKClJhZGlhbCBiYXNpczogMC40NTAxCgpFbSByZWxhw6fDo28gYSBlc3RlIGF0cmlidXRvLCBvIGtlcm5lbCBMaW5lYXIgw6kgYSBtZWxob3Igb3DDp8OjbyBwYXJhIHVtYSBTVk0uCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OgogIHdvcmRfZG9jdW1lbnQ6IGRlZmF1bHQKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKICBodG1sX25vdGVib29rOiBkZWZhdWx0Ci0tLQojVGVzdGVzIGRlIEtlcm5lbCBkbyBTVk0KTmVzdGUgZG9jdW1lbnRvIHPDo28gZmVpdG9zIHRlc3RlcyBkb3MgZGlmZXJlbnRlcyBrZXJuZWxzIHByZXNlbnRlcyBuYSBmdW7Dp8OjbyBzdm0gZG8gcGFjb3RlIGUxMDcxIHBhcmEgYSBjb25zdHJ1w6fDo28gZGUgc3Vwb3J0IHZlY3RvciBtYWNoaW5lcy4gQSBiYXNlIGRlIGRhZG9zIHVzYWRhIGZvaSBhIEN1c3R1bWVyIENodXJuLiBUaXJhbmRvIG8gY3VzdG9tZXJJRCwgdG9kb3Mgb3MgYXRyaWJ1dG9zIGZvcmFtIHVzYWRvcyBwYXJhIGNsYXNzaWZpY2FyIG9zIGluZGl2w61kdW9zIGVtIHJlbGHDp8OjbyBhbyBjYW1wbyBDaHVybi4KCiMjUHJlcGFyYcOnw6NvIGUgc2VwYXJhw6fDo28gZG8gZGF0YSBzZXQgZW0gc3Vic2V0cyBkZSB0cmVpbmFtZW50byBlIHRlc3RlLgpGb2kgcmV0aXJhZGEgYXMgbGluaGFzIGVtIHF1ZSBvIGNhbXBvIFRvdGFsQ2hhcmdlcyBzZSBlbmNvbnRyYXZhIGNvbW8gTkEsIG91IHNlamEsIG7Do28gaGF2aWFtIGluZm9ybWHDp8O1ZXMgc29icmUgbyBhdHJpYnV0by4gTyBkYXRhc2V0IGZvaSBkaXZpZGlkbyBlbSB1bSBzdWJjb25qdW50byBjb20gODAlIGRvcyBkYWRvcyB0b3RhaXMgcGFyYSB0cmVpbmFtZW50bywgZSB1bSBzdWJjb25qdW50byBkZSAyMCUgZG9zIGRhZG9zIHBhcmEgdGVzdGUuIApgYGB7cn0KcmVxdWlyZShlMTA3MSkKcmVxdWlyZShjYXJldCkKcmVxdWlyZShkcGx5cikKZGFkb3MgPC0gcmVhZC5jc3YoIi4uLy4uL2RhZG9zL2RhZG9zLmNzdiIpCmRhZG9zIDwtIHRibF9kZihkYWRvcykKZGFkb3MkY3VzdG9tZXJJRCA8LSBhcy5jaGFyYWN0ZXIoZGFkb3MkY3VzdG9tZXJJRCkKCkRhdGFTdWJzZXQgPC0gc3Vic2V0KGRhZG9zLHN1YnNldD1Ub3RhbENoYXJnZXM+MCxzZWxlY3QgPSAtY3VzdG9tZXJJRCkKRGFkb3NUcmVpbmFtZW50byA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKHkgPSBEYXRhU3Vic2V0JENodXJuLHAgPSAwLjgpClRyYWluIDwtIERhdGFTdWJzZXRbRGFkb3NUcmVpbmFtZW50byRSZXNhbXBsZTEsXQpUZXN0IDwtIERhdGFTdWJzZXRbLURhZG9zVHJlaW5hbWVudG8kUmVzYW1wbGUxLF0KYGBgCiMjS2VybmVsIHNpZ21vaWQgZG8gU1ZNCgpgYGB7ciwgZWNobz1UUlVFfQoKcHJlZGl0b3IgPC0gc3ZtKENodXJuIH4gLiwgZGF0YSA9IFRyYWluLGtlcm5lbD0ic2lnbW9pZCIpCnByZWRpdGlvbnMgPC0gcHJlZGljdChwcmVkaXRvcixzdWJzZXQoVGVzdCxzZWxlY3QgPSAtQ2h1cm4pKQpjb25mdXNpb25NYXRyaXgocHJlZGl0aW9ucyxzdWJzZXQoVGVzdCxzZWxlY3Q9Q2h1cm4pJENodXJuKQpgYGAKIyNLZXJuZWwgbGluZWFyIGRvIFNWTQoKYGBge3J9CgpwcmVkaXRvciA8LSBzdm0oQ2h1cm4gfiAuLCBkYXRhID0gVHJhaW4sa2VybmVsPSJsaW5lYXIiKQpwcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSkKY29uZnVzaW9uTWF0cml4KHByZWRpdGlvbnMsc3Vic2V0KFRlc3Qsc2VsZWN0PUNodXJuKSRDaHVybikKYGBgCiMjS2VybmVsIHBvbHlub21pYWwgZG8gU1ZNCgpgYGB7cn0KCnByZWRpdG9yIDwtIHN2bShDaHVybiB+IC4sIGRhdGEgPSBUcmFpbixrZXJuZWw9InBvbHlub21pYWwiKQpwcmVkaXRpb25zIDwtIHByZWRpY3QocHJlZGl0b3Isc3Vic2V0KFRlc3Qsc2VsZWN0ID0gLUNodXJuKSkKY29uZnVzaW9uTWF0cml4KHByZWRpdGlvbnMsc3Vic2V0KFRlc3Qsc2VsZWN0PUNodXJuKSRDaHVybikKYGBgCiMjS2VybmVsIHJhZGlhbCBiYXNpcyBkbyBTVk0KCmBgYHtyfQoKcHJlZGl0b3IgPC0gc3ZtKENodXJuIH4gLiwgZGF0YSA9IFRyYWluLGtlcm5lbD0icmFkaWFsIikKcHJlZGl0aW9ucyA8LSBwcmVkaWN0KHByZWRpdG9yLHN1YnNldChUZXN0LHNlbGVjdCA9IC1DaHVybikpCmNvbmZ1c2lvbk1hdHJpeChwcmVkaXRpb25zLHN1YnNldChUZXN0LHNlbGVjdD1DaHVybikkQ2h1cm4pCmBgYAoKIyNSZXN1bHRhZG9zCgpFbSByZWxhw6fDo28gYW8gYXRyaWJ1dG8ga2FwcGEgZGUgY2FkYSBrZXJuZWw6CgpTaWdtb2lkOiAwLjQ0NTkKCkxpbmVhcjogMC40NjYyCgpQb2x5bm9taWFsOiAwLjM4ODIKClJhZGlhbCBiYXNpczogMC40NTAxCgpFbSByZWxhw6fDo28gYSBlc3RlIGF0cmlidXRvLCBvIGtlcm5lbCBMaW5lYXIgw6kgYSBtZWxob3Igb3DDp8OjbyBwYXJhIHVtYSBTVk0uCgo=</div>
 
 
 
