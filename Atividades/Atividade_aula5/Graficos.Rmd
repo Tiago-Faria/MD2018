@@ -6,7 +6,8 @@ output:
 ---
 
 ```{r, echo=FALSE, include=FALSE}
-require(dplyr)
+require(pacman)
+p_load(tidyverse)
 dados <- read.csv("../../dados/dados.csv")
 dados <- tbl_df(dados)
 dados$customerID <- as.character(dados$customerID)
@@ -30,6 +31,6 @@ barplot(tabela, beside=TRUE, legend=rownames(tabela),names.arg = c("not senior",
 Pagamento total por metodo de pagamento
 ```{r, echo=FALSE}
 subTable <- dados[c("TotalCharges","PaymentMethod")]
-total <- aggregate(TotalCharges ~ PaymentMethod, data=subTable, FUN=sum)
+ggplot(data=dados)+geom_point(mapping = aes(x=TotalCharges,y=PaymentMethod))
 
 ```

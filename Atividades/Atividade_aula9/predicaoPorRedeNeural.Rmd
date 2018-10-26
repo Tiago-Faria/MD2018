@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r echo=FALSE}
 require(pacman)
 p_load(freestats,dplyr,caret)
 set.seed(1)
@@ -30,5 +30,12 @@ model <- train(Churn ~., data = dados.train,
                method = "gbm",
                trControl = TrainControl,
                verbose = FALSE)
+
+preditions <- predict(model,dados.test[,names(dados.test) != "Churn"])
 ```
+##Confusion matrix do modelo
+```{r }
+confusionMatrix(preditions,dados.test$Churn)
+```
+
 
