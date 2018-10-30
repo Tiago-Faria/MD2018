@@ -51,7 +51,7 @@ train.control <- trainControl(method = "repeatedcv",
                               search = "grid")
 
 model <- train(Survived ~., TrainData,
-               method = "adaboost",
+               method = "rf",
                preProcess = c("center"),
                tuneLength = 3,
                trControl = train.control)

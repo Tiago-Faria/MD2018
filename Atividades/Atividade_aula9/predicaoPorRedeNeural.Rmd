@@ -24,10 +24,10 @@ dados.train <- dados[partition,]
 dados.test <- dados[-partition,]
 
 TrainControl <- trainControl(method = "repeatedcv",
-                             number = 10,
-                             repeats = 3)
+                             number = 3,
+                             repeats = 2)
 model <- train(Churn ~., data = dados.train,
-               method = "gbm",
+               method = "adaboost",
                trControl = TrainControl,
                verbose = FALSE)
 

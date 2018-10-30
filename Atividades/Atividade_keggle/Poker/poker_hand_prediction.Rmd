@@ -1,0 +1,58 @@
+---
+title: "Poker"
+author: "Tiago Pereira de Faria"
+date: "29 de outubro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+require(pacman)
+p_load(dplyr,caret,adabag,plyr)
+```
+
+```{r , include=FALSE}
+dados <- read.csv("Dados/train.csv")
+dados <- tbl_df(dados)
+for(row in list(1:nrow(dados))){
+  dados[row,"MaxEquals"] <- -as.vector(sort(-table(c(dados[row,]$C1,dados[row,]$C2,dados[row,]$C3,dados[row,]$C4))))[1]
+  dados[row,"SecMaxEquals"] <- -as.vector(sort(-table(c(dados[row,]$C1,dados[row,]$C2,dados[row,]$C3,dados[row,]$C4))))[2]
+}
+
+
+table(c(dados[1,]$C1,dados[1,]$C2,dados[1,]$C3,dados[1,]$C4))
+
+
+dados$S1 <- factor(dados$S1)
+dados$C1 <- factor(dados$C1)
+dados$S2 <- factor(dados$S2)
+dados$C2 <- factor(dados$C2)
+dados$S3 <- factor(dados$S3)
+dados$C3 <- factor(dados$C3)
+dados$S4 <- factor(dados$S4)
+dados$C4 <- factor(dados$C4)
+dados$S5 <- factor(dados$S5)
+dados$C5 <- factor(dados$C5)
+dados$hand <- factor(dados$hand)
+
+dados <- dados[createDataPartition(dados$hand,p=.5,list = FALSE,times=1),]
+partition <- createDataPartition(dados$hand, p=.8,list=FALSE,times=1)
+dados.train <- dados[partition,]
+dados.test <- dados[-partition,]
+
+TrainControl <- trainControl(method = "repeatedcv",
+                             number = 3,
+                             repeats = 1)
+
+model <- train(hand ~., data = dados.train,
+               method = "AdaBoost.M1",
+               trControl = TrainControl,
+               verbose = FALSE)
+
+preditions <- predict(model,dados.test[,names(dados.test) != "hand"])
+```
+
+```{r}
+confusionMatrix(preditions,dados.test$hand)
+```
+
