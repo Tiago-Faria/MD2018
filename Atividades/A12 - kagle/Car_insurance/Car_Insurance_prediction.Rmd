@@ -1,0 +1,121 @@
+---
+title: "InsuranceBySimpleTree"
+author: "Tiago Pereira de Faria"
+date: "4 de novembro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+require(pacman)
+p_load(freestats,dplyr,caret,e1071,C50,randomForest,plyr)
+set.seed(1)
+gc()
+
+dados <- read.csv("Dados/train.csv")
+dados <- tbl_df(dados)
+
+
+dados <- dados[,names(dados) != "id"]
+dados <- dados[,names(dados) != "ps_car_11_cat"]
+ColumnsToExclude <- list()
+for(col in names(dados)){
+  if(grepl("bin",col,fixed = TRUE) || grepl("cat",col,fixed = TRUE)){
+    dados[[col]] <- factor(dados[[col]])
+
+    if(names(which.max(table(dados[[col]]))) == -1){
+      ColumnsToExclude <- c(ColumnsToExclude,col)
+    }else{
+      dados[col][dados[col]==-1] <- names(which.max(table(dados[[col]])))
+      dados[[col]] <- factor(dados[[col]])
+      lev <- list()
+      for(n in levels(dados[[col]])){
+        lev <- c(lev, paste("X",n,sep=""))
+      }
+      levels(dados[[col]]) <- as.character(lev)
+    }
+  }
+  else{
+    dados[col][dados[col]==-1] <- mean(dados[[col]])
+  }
+}
+
+dados$target <- factor(dados$target)
+dados <- dados[,-which(names(dados) %in% ColumnsToExclude)]
+
+dados$target <- revalue(dados$target, c("1"="X1", "0"="X0"))
+
+dados <- downSample(x = dados,
+                    y = dados$target)
+dados$Class <- NULL
+
+partition <- createDataPartition(dados$target,p=0.7,list = FALSE,times=1)
+dados.train <- dados[partition,]
+dados.test <- dados[-partition,]
+
+
+```
+#SVM
+```{r}
+train.control <- trainControl(method = "cv",
+                              number = 5,
+                              returnResamp = "all")
+
+model <- train(target ~.,dados.train,
+               method = "svmLinear",
+               tuneGrid = data.frame(.C = c(.2, .4, .6, .8, 1)),
+               trControl = train.control,
+               preProc = c("center", "scale"))
+
+
+prediction <- predict(model, dados.test[,names(dados) != "target"])
+confusionMatrix(prediction, dados.test$target)
+
+save(model, file = "SVMCaret2.rda")
+gc()
+train.control <- trainControl(method = "cv",
+                              number = 3,
+                              returnResamp = "all")
+
+model <- train(target ~.,dados.train,
+               method = "rf",
+               tuneLength = 3,
+               trControl = train.control,
+               preProc = c("center", "scale"))
+
+
+prediction <- predict(model, dados.test[,names(dados) != "target"])
+confusionMatrix(prediction, dados.test$target)
+
+save(model, file = "RFCaret.rda")
+```
+#RF
+```{r}
+xgbGrid <- expand.grid(nrounds = c(1, 10),
+                       max_depth = c(1, 4),
+                       eta = c(.1, .4),
+                       gamma = 0,
+                       colsample_bytree = .7,
+                       min_child_weight = 1,
+                       subsample = c(.8, 1))
+
+train.control <- trainControl(method = "cv", number = 3, returnResamp = "all",
+                       classProbs = TRUE, 
+                       summaryFunction = twoClassSummary)
+
+model <- train(target ~.,dados.train,
+               method = "xgbTree",
+               tuneGrid = xgbGrid,
+               metric = "ROC",
+               trControl = train.control,
+               preProc = c("center", "scale"))
+
+prediction <- predict(model, dados.test[,names(dados) != "target"])
+confusionMatrix(prediction, dados.test$target)
+
+save(model, file = "xgb.rda")
+```
+

@@ -1,0 +1,102 @@
+---
+title: "Resultados2"
+author: "Tiago Pereira de Faria"
+date: "6 de novembro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+require(pacman)
+p_load(freestats,dplyr,caret,e1071,C50,randomForest,plyr)
+set.seed(1)
+gc()
+
+dados <- read.csv("Dados/train.csv",nrows = 40000)
+dados <- tbl_df(dados)
+
+dados <- dados[,names(dados) != "id"]
+dados <- dados[,names(dados) != "ps_car_11_cat"]
+ColumnsToExclude <- list()
+for(col in names(dados)){
+  if(grepl("bin",col,fixed = TRUE) || grepl("cat",col,fixed = TRUE)){
+    dados[[col]] <- factor(dados[[col]])
+
+    if(names(which.max(table(dados[[col]]))) == -1){
+      ColumnsToExclude <- c(ColumnsToExclude,col)
+    }else{
+      dados[col][dados[col]==-1] <- names(which.max(table(dados[[col]])))
+      dados[[col]] <- factor(dados[[col]])
+      lev <- list()
+      for(n in levels(dados[[col]])){
+        lev <- c(lev, paste("X",n,sep=""))
+      }
+      #levels(dados[[col]]) <- as.character(lev)
+    }
+  }
+  else{
+    dados[col][dados[col]==-1] <- mean(dados[[col]])
+  }
+}
+
+dados$target <- factor(dados$target)
+#dados <- dados[,-which(names(dados) %in% ColumnsToExclude)]
+
+dados$target <- revalue(dados$target, c("1"="TRUE", "0"="FALSE"))
+
+
+partition <- createDataPartition(dados$target,p=0.7,list = FALSE,times=1)
+dados.train <- dados[partition,]
+dados.test <- dados[-partition,]
+```
+#RF
+```{r}
+gc()
+load("RF.rda")
+print(model)
+prediction <- predict(model, dados.test[,names(dados) != "target"])
+confusionMatrix(prediction, dados.test$target)
+```
+#SVM
+```{r}
+gc()
+load("SVM.rda")
+#print(model)
+prediction <- predict(model, dados.test[,names(dados) != "target"])
+confusionMatrix(prediction, dados.test$target)
+```
+#RF Caret
+```{r}
+gc()
+load("RFCaret.rda")
+print(model)
+#prediction <- predict(model, dados.test[,names(dados) != "target"])
+#confusionMatrix(prediction, dados.test$target)
+```
+#SVM Caret
+```{r}
+gc()
+load("SVMCaret2.rda")
+print(model)
+#prediction <- predict(model, dados.test[,names(dados) != "target"])
+#confusionMatrix(prediction, dados.test$target)
+```
+#adabag Caret
+```{r, include=FALSE}
+gc()
+load("Adabag.rda")
+dados <- dados[,-which(names(dados) %in% ColumnsToExclude)]
+
+dados$target <- revalue(dados$target, c("1"="X1", "0"="X0"))
+
+
+partition <- createDataPartition(dados$target,p=0.7,list = FALSE,times=1)
+
+dados.train <- dados[partition,]
+dados.test <- dados[-partition,]
+#prediction <- predict(model, dados.test[,names(dados) != "target"])
+#confusionMatrix(prediction, dados.test$target)
+```

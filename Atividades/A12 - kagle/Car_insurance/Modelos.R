@@ -1,0 +1,5 @@
+load("RF.rda")
+load("SVM.rda")
+load("RFCaret.rda")
+load("SVMCaret2.rda")
+load("Adabag.rda")

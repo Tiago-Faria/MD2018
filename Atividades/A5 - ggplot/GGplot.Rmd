@@ -1,0 +1,27 @@
+---
+title: "GGPlot"
+author: "t"
+date: "6 de dezembro de 2018"
+output: html_document
+---
+
+```{r}
+require(pacman)
+p_load(tidyverse)
+dados <- read.csv("../../dados/dados.csv")
+dados <- tbl_df(dados)
+dados$customerID <- as.character(dados$customerID)
+```
+
+##Vizualização de Churn conforme idade e gastos totais
+```{r}
+ggplot(dados,aes(x = tenure,y = TotalCharges,color = Churn)) + 
+         geom_point()
+```
+
+##Quantidade de Churn de cada tipo de serviço de internet
+```{r}
+ggplot(dados,aes(x = InternetService,fill = Churn)) +
+  geom_bar() 
+```
+

@@ -1,0 +1,61 @@
+---
+title: "ResultPrediction"
+author: "t"
+date: "6 de novembro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+require(pacman)
+p_load(freestats,dplyr,caret,e1071,C50,randomForest,plyr)
+set.seed(1)
+gc()
+
+dados <- read.csv("Dados/test.csv")
+ss <- tbl_df(read.csv("Dados/sample_submission.csv"))
+dados <- tbl_df(dados)
+
+
+dados <- dados[,names(dados) != "id"]
+dados <- dados[,names(dados) != "ps_car_11_cat"]
+ColumnsToExclude <- list()
+for(col in names(dados)){
+  if(grepl("bin",col,fixed = TRUE) || grepl("cat",col,fixed = TRUE)){
+    dados[[col]] <- factor(dados[[col]])
+
+    if(names(which.max(table(dados[[col]]))) == -1){
+      print(names(which.max(table(dados[[col]]))))
+      ColumnsToExclude <- c(ColumnsToExclude,col)
+    }else{
+      dados[col][dados[col]==-1] <- names(which.max(table(dados[[col]])))
+      dados[[col]] <- factor(dados[[col]])
+      lev <- list()
+      for(n in levels(dados[[col]])){
+        lev <- c(lev, paste("X",n,sep=""))
+      }
+      levels(dados[[col]]) <- as.character(lev)
+    }
+  }
+  else{
+    dados[col][dados[col]==-1] <- mean(dados[[col]])
+  }
+}
+
+dados <- dados[,-which(names(dados) %in% ColumnsToExclude)]
+
+
+load("xgb.rda")
+dados$target <- predict(model,dados)
+
+dados$id <- dados.teste$id
+resultado <- dados[,c("id","target")]
+levels(resultado$target) <- c("0", "1")
+resultado$target <- as.numeric(levels(resultado$target))[resultado$target]
+
+resultado %>% write.csv('submit.csv')
+```
+

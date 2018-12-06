@@ -1,0 +1,41 @@
+---
+title: "Rede_Neural"
+author: "Tiago Pereira de Faria"
+date: "16 de outubro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE}
+require(pacman)
+p_load(freestats,dplyr,caret)
+set.seed(1)
+
+dados <- read.csv("../../dados/dados.csv")
+dados <- tbl_df(dados)
+dados$customerID <- as.character(dados$customerID)
+dados <- subset(dados,subset=TotalCharges>0,select = -customerID)
+
+partition <- createDataPartition(dados$Churn, p=.7,list=FALSE,times=1)
+dados.train <- dados[partition,]
+dados.test <- dados[-partition,]
+
+TrainControl <- trainControl(method = "repeatedcv",
+                             number = 3,
+                             repeats = 2)
+model <- train(Churn ~., data = dados.train,
+               method = "adaboost",
+               trControl = TrainControl,
+               verbose = FALSE)
+
+preditions <- predict(model,dados.test[,names(dados.test) != "Churn"])
+```
+##Confusion matrix do modelo
+```{r }
+confusionMatrix(preditions,dados.test$Churn)
+```
+
+

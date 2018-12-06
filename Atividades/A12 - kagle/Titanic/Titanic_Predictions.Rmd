@@ -1,0 +1,63 @@
+---
+title: "Titanic_Prediction"
+author: "Tiago Pereira de Faria"
+date: "23 de outubro de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+require(pacman)
+p_load(freestats,dplyr,caret,doSNOW)
+TrainData <- read.csv("Dados/train.csv")
+TrainData <- tbl_df(TrainData)
+TestData <- read.csv("Dados/test.csv")
+TestData <- tbl_df(TestData)
+TestResult <- read.csv("Dados/gender_submission.csv")
+TestResult <- tbl_df(TestResult)
+
+TrainData$Embarked[TrainData$Embarked == ""] <- "S"
+TrainData <- TrainData[,c("Survived","Pclass","Sex","Age","SibSp","Parch","Fare","Embarked")]
+
+TestData$Embarked[TestData$Embarked == ""] <- "S"
+TestData <- TestData[,c("Pclass","Sex","Age","SibSp","Parch","Fare","Embarked")]
+
+dummy.vars <- dummyVars(~., data = TrainData[,-1])
+trainData.dummy <- predict(dummy.vars,TrainData[,-1])
+TrainData$Survived <- factor(TrainData$Survived)
+
+dummy.vars <- dummyVars(~., data = TestData[,-1])
+testData.dummy <- predict(dummy.vars,TestData[,-1])
+
+pre.Process <- preProcess(trainData.dummy,method = "bagImpute")
+imputed.data <- predict(pre.Process,trainData.dummy)
+
+TrainData$Age <- imputed.data[,"Age"]
+
+pre.Process <- preProcess(testData.dummy,method = "bagImpute")
+imputed.data <- predict(pre.Process,testData.dummy)
+
+TestData$Age <- imputed.data[,"Age"]
+TestData$Fare <- imputed.data[,"Fare"]
+
+TestData$Survived <- TestResult$Survived
+
+train.control <- trainControl(method = "repeatedcv",
+                              number = 10,
+                              repeats = 3,
+                              search = "grid")
+
+model <- train(Survived ~., TrainData,
+               method = "rf",
+               preProcess = c("center"),
+               tuneLength = 3,
+               trControl = train.control)
+
+predicted = predict(model,TestData)
+TestResult$Survived <- as.factor(TestResult$Survived)
+confusionMatrix(predicted,TestResult$Survived)
+```
+
